@@ -7,6 +7,4 @@ export default {
   },
   plugins: [],
   darkMode: "selector",
-  site: "https://joserafaelsh.github.io/my-web-site/",
-  base: "my-web-site",
 };
