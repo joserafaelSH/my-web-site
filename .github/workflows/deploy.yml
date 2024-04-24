@@ -16,7 +16,6 @@ permissions:
 
 jobs:
   build:
-    publish_dir: ./public
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
