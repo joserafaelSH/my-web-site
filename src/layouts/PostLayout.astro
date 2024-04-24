@@ -1,9 +1,5 @@
 ---
-import { getCollection } from "astro:content";
-const posts = (await getCollection("blog")).sort(
-  //@ts-ignore
-  (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
-);
+const { frontmatter } = Astro.props;
 ---
 
 <html lang="en">
@@ -13,7 +9,7 @@ const posts = (await getCollection("blog")).sort(
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
 
-    <title>José Rafael</title>
+    <title>Astro</title>
     <style>
       .min-w-screen {
         min-width: 475px;
@@ -29,21 +25,23 @@ const posts = (await getCollection("blog")).sort(
       <!-- Header -->
       <div class="flex justify-between items-center mb-6">
         <div class="w-3/5">
-          <h1 class="text-xl font-bold">José Rafael S. Hermoso</h1>
+          <h1 class="text-xl font-bold">
+            <a href="/blog">José Rafael S. Hermoso</a>
+          </h1>
           <p class="text-sm">Software Developer</p>
         </div>
         <div class="w-2/5 flex justify-end">
           <button
             id="light-mode-button"
             type="button"
-            class="inline-block rounded border-2 border-black bg-neutral-100 px-6 mr-5 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+            class="inline-block rounded bg-neutral-100 px-6 mr-5 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-600 shadow-light-3 transition duration-150 ease-in-out hover:bg-neutral-200 hover:shadow-light-2 focus:bg-neutral-200 focus:shadow-light-2 focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-light-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
           >
             Light
           </button>
           <button
             id="dark-mode-button"
             type="button"
-            class="inline-block rounded border-2 border-white bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150 ease-in-out hover:bg-neutral-700 hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+            class="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-dark-3 transition duration-150 ease-in-out hover:bg-neutral-700 hover:shadow-dark-2 focus:bg-neutral-700 focus:shadow-dark-2 focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-dark-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
           >
             Dark
           </button>
@@ -51,21 +49,19 @@ const posts = (await getCollection("blog")).sort(
       </div>
 
       <!-- Posts Section -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Post 1 -->
 
-        {
-          posts.map((post) => (
-            <a
-              href={`blog/posts/${post.slug}`}
-              class="bg-gray-200 p-4 rounded-md dark:bg-stone-800 transition duration-300 border-2 border-transparent hover:border-black  dark:hover:border-white hover:cursor-pointer"
-            >
-              <h2 class="text-lg font-semibold">{post.data.title}</h2>
-              <p class="text-sm mt-2">{post.data.description}</p>
-            </a>
-          ))
-        }
-      </div>
+      <article class="max-w-4xl mx-auto mb-20">
+        <header class="mt-20">
+          <h1 class="text-3xl font-bold mb-2">Title: {frontmatter.title}</h1>
+          <h2 class="text-lg font-medium mb-2">Author: {frontmatter.author}</h2>
+          <h3 class="text-base text-gray-400 mb-4">
+            Description: {frontmatter.description}
+          </h3>
+        </header>
+        <section id="post" class="mt-8 px-4 py-6">
+          <slot class="all" />
+        </section>
+      </article>
 
       <!-- Contact Section -->
       <div class="mt-6">
@@ -152,7 +148,6 @@ const posts = (await getCollection("blog")).sort(
           </a>
         </div>
       </div>
-
       <!-- Footer -->
       <footer class="mt-6 text-center">
         <p>© 2024 José Rafael S. Hermoso. My web site.</p>
@@ -161,8 +156,6 @@ const posts = (await getCollection("blog")).sort(
   </body>
   <script>
     // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    const ligthButton = document.querySelector("#light-mode-button");
-    const darkButton = document.querySelector("#dark-mode-button");
     if (
       localStorage.theme === "dark" ||
       (!("theme" in localStorage) &&
@@ -194,5 +187,61 @@ const posts = (await getCollection("blog")).sort(
       document.documentElement.classList.remove("dark");
       localStorage.theme = "light";
     });
+
+    const copyImg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 18q-.825 0-1.413-.588T7 16V4q0-.825.588-1.413T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.588 1.413T18 18H9Zm0-2h9V4H9v12Zm-4 6q-.825 0-1.413-.588T3 20V7q0-.425.288-.713T4 6q.425 0 .713.288T5 7v13h10q.425 0 .713.288T16 21q0 .425-.288.713T15 22H5Zm4-6V4v12Z"/></svg>`;
+    const checkMarkImg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m10.6 16.2l7.05-7.05l-1.4-1.4l-5.65 5.65l-2.85-2.85l-1.4 1.4l4.25 4.25ZM5 21q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.588 1.413T19 21H5Z"/></svg>`;
+    const preBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const preBlock of preBlocks) {
+      preBlock.style.position = "relative";
+      preBlock.style.padding = "10px";
+      preBlock.style.marginTop = "10px";
+      preBlock.style.marginBottom = "10px";
+      preBlock.style.borderRadius = "20px";
+      preBlock.style.backgroundColor = "rgb(36, 41, 55)";
+      renderCopyBtn(preBlock);
+    }
+
+    function renderCopyBtn(preBlock: HTMLElement) {
+      const copyButton = document.createElement("button");
+
+      copyButton.className =
+        "absolute top-0 right-0 mt-2 mr-2 p-2 rounded-full hover:bg-gray-600 focus:outline-none";
+      copyButton.setAttribute("aria-label", "Copy code to clipboard");
+      copyButton.setAttribute("title", "Copy code to clipboard");
+      copyButton.innerHTML = copyImg;
+
+      preBlock.setAttribute("tabindex", "0");
+      preBlock.appendChild(copyButton);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(preBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block: HTMLElement, button: HTMLElement) {
+      const code = block.querySelector("code");
+      const text = code?.innerText || "";
+
+      try {
+        await navigator.clipboard.writeText(text);
+
+        // Visual feedback that the task is completed
+        button.innerHTML = checkMarkImg;
+
+        setTimeout(() => {
+          button.innerHTML = copyImg;
+        }, 700);
+      } catch (error) {
+        console.error("Failed to copy code: ", error);
+      }
+    }
+
+    const postElements = Array.from(document.querySelectorAll("section>*"));
+    console.log(postElements);
+    for (const postElement of postElements) {
+      postElement.style.marginTop = "15px";
+      postElement.style.marginBottom = "10px";
+    }
   </script>
 </html>
