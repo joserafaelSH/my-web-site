@@ -17,5 +17,5 @@ export default defineConfig({
     }),
   ],
   site: "https://joserafaelsh.github.io",
-  base: "blog",
+  base: "my-web-site",
 });

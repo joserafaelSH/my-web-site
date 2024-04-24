@@ -57,7 +57,7 @@ const posts = (await getCollection("blog")).sort(
         {
           posts.map((post) => (
             <a
-              href={`blog/posts/${post.slug}`}
+              href={`my-web-site/posts/${post.slug}`}
               class="bg-gray-200 p-4 rounded-md dark:bg-stone-800 transition duration-300 border-2 border-transparent hover:border-black  dark:hover:border-white hover:cursor-pointer"
             >
               <h2 class="text-lg font-semibold">{post.data.title}</h2>
