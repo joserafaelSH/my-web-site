@@ -240,7 +240,9 @@ const { frontmatter } = Astro.props;
     const postElements = Array.from(document.querySelectorAll("section>*"));
     console.log(postElements);
     for (const postElement of postElements) {
+      //@ts-ignore
       postElement.style.marginTop = "15px";
+      //@ts-ignore
       postElement.style.marginBottom = "10px";
     }
   </script>
