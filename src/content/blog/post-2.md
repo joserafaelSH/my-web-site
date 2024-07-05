@@ -335,7 +335,7 @@ AWS_SECRET_ACCESS_KEY=real_secret
 
 ```tsx
 NODE_ENV=dev
-AWS_ENDPOINT=http://localhots:4566:
+AWS_ENDPOINT=http://localhost:4566
 AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=fake_id
 AWS_SECRET_ACCESS_KEY=fake_secret
