@@ -93,3 +93,11 @@ Exemplo de arquitetura.
 ### Considerações Finais
 
 Um ponto que se deve levar em conta é a **idempotência de eventos**, ou seja, um evento de pagamento, por exemplo, não deve ser executado duas vezes, então mecanismos como identificador único e verificações em banco de dados devem ser implementados, principalmente em ambientes com redundância a nível de cluster do Kafka.
+
+## Recursos extras
+
+- Padrão SAGA: [padrao-saga](https://microservices.io/patterns/data/saga.html)
+- ACID: [ACID](https://www.databricks.com/br/glossary/acid-transactions)
+- Microservices: [microservices](https://aws.amazon.com/microservices/)
+- Repo com código de exemplo: [joserafaelSH/first-saga-pattern-app](https://github.com/joserafaelSH/first-saga-pattern-app)
+- kafka-x-rabbitmq : [kafka-x-rabbitmq](https://aws.amazon.com/pt/compare/the-difference-between-rabbitmq-and-kafka/)
